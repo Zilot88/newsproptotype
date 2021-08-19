@@ -1,18 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import * as S from "./styles";
 import { NewsTest, useWeatherContext, WeatherProvider } from "news-independent";
 
-const Temp2 = () => {
+const Temp2 = React.memo(() => {
   const { weatherData } = useWeatherContext();
-  console.log(weatherData);
+  console.log('render2');
   return (
     <div style={{color: '#fff'}}>
-      <NewsTest />
+      {JSON.stringify(weatherData)}
     </div>
   );
-};
+});
 
 const Component: React.FC = () => {
+  console.log('render');
   return (
     <div style={S.page}>
       <WeatherProvider>
@@ -20,6 +21,7 @@ const Component: React.FC = () => {
         <Temp2 />
         </span>
       </WeatherProvider>
+      <NewsTest />
     </div>
   );
 };

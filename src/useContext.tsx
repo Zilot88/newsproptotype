@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useCallback, useEffect, useState } from 'react'
 
 import createCtx from './utils/createCtx'
 import { Props, WeatherContext, WeatherState } from './types'
@@ -25,11 +25,13 @@ export const initialState: WeatherState = {
 
 function WeatherProvider(props: Props): ReactElement {
   const [weatherData, setWeatherData] = useState<WeatherState>(initialState)
-  const { fetchData } = useWeatherApi()
+  const { fetchData } = useWeatherApi(false)
+
+  const mem = useCallback(() => fetchData('Kiev'), [])
 
   useEffect(() => {
     ;(async () => {
-      const res: WeatherState | null = await fetchData('Kiev')
+      const res: WeatherState | null = await mem()
       if (!res) {
         return
       }
@@ -38,7 +40,7 @@ function WeatherProvider(props: Props): ReactElement {
         ...res,
       }))
     })()
-  }, [fetchData])
+  }, [mem])
 
   const setContextData = (key: keyof WeatherState, data: any) => {
     setWeatherData((prev: any) => ({
@@ -50,7 +52,6 @@ function WeatherProvider(props: Props): ReactElement {
   const callAPI = {
     setContextData,
   }
-
   return (
     <Provider
       value={{
