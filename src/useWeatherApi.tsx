@@ -1,45 +1,53 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
+
+import { WeatherState, WeatherType } from './types'
+import { initialState } from './useContext'
 
 // Hook
-export const useWeatherApi = () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState('');
+export const useWeatherApi = (params?: boolean) => {
+  const [data, setData] = useState<WeatherType>(initialState)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState('')
 
-  const useEffectOnMount = (effect: React.EffectCallback) => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(effect, []);
-  };
-  useEffectOnMount(() => {
-    // When initial state username is not null, submit the form to load repos
-    async function fetchData() {
-      setLoading(true);
-      if (error) {
-        setError('');
-      }
-      const res = await fetch(
-        `https://api.allorigins.win/get?url=${encodeURIComponent(
-          'https://xkcd.com/info.0.json',
-        )}`,
-      )
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-          throw new Error('Network response was not ok.');
-        })
-        .then((data) => {
-          setData(data.contents);
-          setLoading(false);
-        });
-      console.log(res);
+  const fetchData = async (name?: string): Promise<WeatherState | null> => {
+    if (!name) {
+      return null
     }
+    setLoading(true)
+    if (error) {
+      setError('')
+    }
+    const URL =
+      'https://api.openweathermap.org/data/2.5/weather?q=' +
+      name +
+      '&lang=ru&units=metric&appid=b1b35bba8b434a28a0be2a3e1071ae5b'
+    return await fetch(URL)
+      .then(response => {
+        if (response.ok) {
+          return response.json()
+        }
+        throw new Error('Network response was not ok.')
+      })
+      .then(data => {
+        setData(data)
+        setLoading(false)
+        return data
+      })
+      .catch(error => {
+        setError(error.message)
+        setLoading(false)
+      })
+  }
+  useEffect(() => {
+    if (!params) {
+      ;(async () => {
+        const res: WeatherState | null = await fetchData('Kiev')
+        if (!res) {
+          return
+        }
+      })()
+    }
+  }, [fetchData])
 
-    fetchData().catch((error) => {
-      setError(error.message);
-      setLoading(false);
-    });
-  });
-
-  return { data, loading, error };
-};
+  return { data, loading, error, fetchData }
+}

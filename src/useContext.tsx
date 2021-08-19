@@ -1,17 +1,66 @@
-import * as React from 'react';
+import React, { ReactElement, useEffect, useState } from 'react'
 
-import omit from './utils/omit';
-import { ProviderProps, UseReturn } from './types';
+import createCtx from './utils/createCtx'
+import { Props, WeatherContext, WeatherState } from './types'
+import { useWeatherApi } from './useWeatherApi'
 
-const Context = React.createContext<UseReturn | null>(null);
+const [useCtx, Provider] = createCtx<WeatherContext>()
 
-Context.displayName = 'NewsContext';
+export const initialState: WeatherState = {
+  loading: false,
+  coord: undefined,
+  weather: undefined,
+  base: '',
+  main: undefined,
+  visibility: 0,
+  wind: undefined,
+  clouds: undefined,
+  dt: 0,
+  sys: undefined,
+  timezone: 0,
+  id: 0,
+  name: '',
+  cod: 0,
+}
 
-export const useContext = (): UseReturn =>
-  React.useContext(Context) as unknown as UseReturn;
+function WeatherProvider(props: Props): ReactElement {
+  const [weatherData, setWeatherData] = useState<WeatherState>(initialState)
+  const { fetchData } = useWeatherApi()
 
-export const Provider = (props: ProviderProps) => (
-  <Context.Provider value={omit(props, 'children') as unknown as UseReturn}>
-    {props.children}
-  </Context.Provider>
-);
+  useEffect(() => {
+    ;(async () => {
+      const res: WeatherState | null = await fetchData('Kiev')
+      if (!res) {
+        return
+      }
+      setWeatherData(prev => ({
+        ...prev,
+        ...res,
+      }))
+    })()
+  }, [fetchData])
+
+  const setContextData = (key: keyof WeatherState, data: any) => {
+    setWeatherData((prev: any) => ({
+      ...prev,
+      [key]: data,
+    }))
+  }
+
+  const callAPI = {
+    setContextData,
+  }
+
+  return (
+    <Provider
+      value={{
+        weatherData,
+        callAPI,
+      }}
+    >
+      {props.children}
+    </Provider>
+  )
+}
+
+export { useCtx as useWeatherContext, WeatherProvider }

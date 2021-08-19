@@ -1,40 +1,25 @@
 import React from "react";
 import * as S from "./styles";
-import { Provider, useContext, NewsTest } from "news-independent";
-
-type Item = {
-  title: string;
-  description: string;
-  slugs: string[];
-};
-
-const items: Item[] = [
-  {
-    title: 'AutoUnregister',
-    description: 'Should keep all inputs data when inputs get unmounted',
-    slugs: ['/autoUnregister'],
-  },
-];
+import { NewsTest, useWeatherContext, WeatherProvider } from "news-independent";
 
 const Temp2 = () => {
-  const { data } = useContext();
-  console.log(data);
+  const { weatherData } = useWeatherContext();
+  console.log(weatherData);
   return (
-    <div>
-      <NewsTest/>
-      {JSON.stringify(data)}
+    <div style={{color: '#fff'}}>
+      <NewsTest />
     </div>
   );
-}
+};
 
 const Component: React.FC = () => {
   return (
     <div style={S.page}>
-      <Provider data={{test: 'test'}} >
+      <WeatherProvider>
         <span>
-        <Temp2/>
+        <Temp2 />
         </span>
-      </Provider>
+      </WeatherProvider>
     </div>
   );
 };

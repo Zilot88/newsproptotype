@@ -1,7 +1,7 @@
 {
-  "name": "news-independent",
+  "name": "vvpzilot-news-independent",
   "description": "NewsTest",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "umd:main": "dist/index.umd.js",
@@ -12,8 +12,7 @@
   "types": "dist/index.d.ts",
   "sideEffects": true,
   "files": [
-    "dist",
-    "dist/__tests__"
+    "dist"
   ],
   "exports": {
     "./package.json": "./package.json",
@@ -30,21 +29,23 @@
     "build:esm": "rollup -c ./scripts/rollup/rollup.esm.config.js",
     "cp:dts": "copyfiles -f ./src/**/*.d.ts dist && rimraf dist/__tests__",
     "prettier:fix": "prettier --config .prettierrc --write \"**/*.{ts,tsx}\"",
-    "lint": "eslint '**/*.{js,ts,tsx}'",
-    "lint:fix": "yarn lint -- --fix",
+    "lint": "yarn run eslint src",
+    "lint:fix": "yarn run eslint --fix src",
     "lint:types": "tsc --noEmit",
     "cypress": "cypress run",
     "cypress:open": "cypress open",
-    "prepublishOnly": "yarn && yarn lint:fix && yarn lint:types && yarn test && yarn build",
+    "prepublishOnly": "yarn && yarn lint:fix && yarn lint:types && yarn build",
     "bundlesize": "yarn build:modern && bundlesize",
     "start:app": "yarn build:esm && yarn link && yarn --cwd node_modules/react link && yarn --cwd ./app link react news-independent && yarn --cwd ./app && yarn --cwd ./app run dev"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/react-hook-form/react-hook-form"
+    "url": "https://github.com/Zilot88/newsproptotype"
   },
-  "homepage": "https://www.react-hook-form.com",
-  "author": "<bluebill1049@hotmail.com>",
+  "author": {
+    "name": "vvpzilot",
+    "email": "vvpzilot@gmail.com"
+  },
   "license": "MIT",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^19.0.1",
@@ -80,9 +81,6 @@
     "rollup-plugin-typescript2": "^0.30.0",
     "typescript": "^4.3.5"
   },
-  "resolutions": {
-    "react-native/@jest/create-cache-key-function": "^27.0.2"
-  },
   "bundlesize": [
     {
       "path": "./dist/index.cjs.js",
@@ -105,9 +103,5 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
-  },
-  "funding": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/react-hook-form"
   }
 }
