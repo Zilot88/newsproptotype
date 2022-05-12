@@ -1,29 +1,12 @@
-import React, { useContext } from "react";
-import * as S from "./styles";
-import { NewsTest, useWeatherContext, WeatherProvider } from "news-independent";
-
-const Temp2 = React.memo(() => {
-  const { weatherData } = useWeatherContext();
-  console.log('render2');
-  return (
-    <div style={{color: '#fff'}}>
-      {JSON.stringify(weatherData)}
-    </div>
-  );
-});
+import React from 'react'
+import { NewsContainer, Provider } from 'news-portal'
 
 const Component: React.FC = () => {
-  console.log('render');
   return (
-    <div style={S.page}>
-      <WeatherProvider>
-        <span>
-        <Temp2 />
-        </span>
-      </WeatherProvider>
-      <NewsTest />
-    </div>
-  );
-};
+    <Provider>
+      <NewsContainer />
+    </Provider>
+  )
+}
 
-export default Component;
+export default Component

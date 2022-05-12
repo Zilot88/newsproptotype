@@ -1,8 +1,9 @@
-import pkg from '../../package.json';
+import pkg from '../../package.json'
 
-import { createRollupConfig } from './createRollupConfig';
+import { createRollupConfig } from './createRollupConfig'
 
-const name = 'index';
+const name = 'index'
+
 const options = [
   {
     name,
@@ -15,6 +16,6 @@ const options = [
     format: 'umd',
     input: pkg.source,
   },
-];
+]
 
-export default options.map((option) => createRollupConfig(option));
+export default options.map(option => createRollupConfig(option))

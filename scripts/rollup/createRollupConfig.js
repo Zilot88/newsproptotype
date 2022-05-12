@@ -1,13 +1,13 @@
-import commonjs from '@rollup/plugin-commonjs';
-import resolve from '@rollup/plugin-node-resolve';
-import external from 'rollup-plugin-peer-deps-external';
-import sourcemaps from 'rollup-plugin-sourcemaps';
-import { terser } from 'rollup-plugin-terser';
-import typescript from 'rollup-plugin-typescript2';
+import commonjs from '@rollup/plugin-commonjs'
+import resolve from '@rollup/plugin-node-resolve'
+import external from 'rollup-plugin-peer-deps-external'
+import sourcemaps from 'rollup-plugin-sourcemaps'
+import { terser } from 'rollup-plugin-terser'
+import typescript from 'rollup-plugin-typescript2'
 
 export function createRollupConfig(options, callback) {
-  const name = options.name;
-  const outputName = 'dist/' + [name, options.format, 'js'].join('.');
+  const name = options.name
+  const outputName = 'dist/' + [name, options.format, 'js'].join('.')
 
   const config = {
     input: options.input,
@@ -39,7 +39,7 @@ export function createRollupConfig(options, callback) {
           },
         }),
     ].filter(Boolean),
-  };
+  }
 
-  return callback ? callback(config) : config;
+  return callback ? callback(config) : config
 }

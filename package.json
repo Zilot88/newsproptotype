@@ -1,7 +1,7 @@
 {
-  "name": "vvpzilot-news-independent",
-  "description": "NewsTest",
-  "version": "0.0.7",
+  "name": "news-portal",
+  "description": "news-portal",
+  "version": "0.1.1",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "umd:main": "dist/index.umd.js",
@@ -33,21 +33,20 @@
     "lint:fix": "yarn run eslint --fix src",
     "lint:types": "tsc --noEmit",
     "cypress": "cypress run",
+    "publish": "npm publish",
     "cypress:open": "cypress open",
     "prepublishOnly": "yarn && yarn lint:fix && yarn lint:types && yarn build",
     "bundlesize": "yarn build:modern && bundlesize",
-    "start:app": "yarn build:esm && yarn link && yarn --cwd node_modules/react link && yarn --cwd ./app link react news-independent && yarn --cwd ./app && yarn --cwd ./app run dev"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Zilot88/newsproptotype"
-  },
-  "author": {
-    "name": "vvpzilot",
-    "email": "vvpzilot@gmail.com"
+    "start:app": "yarn build:esm && yarn link && yarn --cwd node_modules/react link && yarn --cwd ./app link react news-portal && yarn --cwd ./app && yarn --cwd ./app run dev"
   },
   "license": "MIT",
   "devDependencies": {
+    "@date-io/date-fns": "^2.13.2",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^5.6.2",
+    "@mui/material": "^5.6.3",
+    "@mui/x-date-pickers": "^5.0.0-alpha.2",
     "@rollup/plugin-commonjs": "^19.0.1",
     "@rollup/plugin-node-resolve": "^13.0.2",
     "@testing-library/jest-dom": "^5.14.1",
@@ -62,6 +61,7 @@
     "@vitejs/plugin-react-refresh": "^1.3.5",
     "bundlesize": "^0.18.0",
     "copyfiles": "^2.4.1",
+    "date-fns": "^2.28.0",
     "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
@@ -88,6 +88,13 @@
     }
   ],
   "peerDependencies": {
+    "@date-io/date-fns": "^2.13.2",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^5.6.2",
+    "@mui/material": "^5.6.3",
+    "@mui/x-date-pickers": "^5.0.0-alpha.2",
+    "date-fns": "^2.28.0",
     "react": "^16.8.0 || ^17"
   },
   "lint-staged": {
@@ -103,5 +110,8 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "dependencies": {
+    "vsts-npm-auth": "^0.41.0"
   }
 }
